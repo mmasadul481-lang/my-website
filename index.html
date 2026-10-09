@@ -173,5 +173,104 @@ renderProducts();renderCart();
     </button>
   </form>
 
+</div><!-- Order & Payment Section -->
+<div style="max-width: 450px; margin: 30px auto; padding: 25px; border: 2px solid #5f259f; border-radius: 12px; background-color: #ffffff; font-family: Arial, sans-serif; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+
+  <!-- Step 1: UPI Payment Info -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <h3 style="color: #5f259f; margin-top: 0;">১. পেমেন্ট করুন (UPI)</h3>
+    <p style="color: #555; font-size: 13px;">PhonePe / Google Pay / Paytm দিয়ে নিচের UPI ID-তে টাকা পাঠান:</p>
+    
+    <div style="background-color: #f3e8ff; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 16px; color: #5f259f; border: 1px dashed #5f259f; display: inline-block;">
+      8327240552@ibl
+    </div>
+  </div>
+
+  <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+  <!-- Step 2: Customer Address & Order Form -->
+  <div id="form-container">
+    <h3 style="color: #333; text-align: center; margin-top: 0;">২. আপনার অর্ডার ও ঠিকানা দিন</h3>
+    
+    <form id="orderForm" action="https://api.web3forms.com/submit" method="POST">
+      
+      <!-- Access Key (আপনার ইমেইলে পাওয়া Key টি এখানে বসাবেন) -->
+      <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+      <input type="hidden" name="from_name" value="SK Fashion Orders">
+      <input type="hidden" name="subject" value="নতুন অর্ডার এসেছে!">
+      
+      <!-- Hidden Order ID Field for Email -->
+      <input type="hidden" name="Order_ID" id="hidden_order_id">
+
+      <!-- Customer Details -->
+      <div style="margin-bottom: 12px;">
+        <label style="font-size: 13px; font-weight: bold; color: #333;">আপনার নাম *</label>
+        <input type="text" id="cust_name" name="Customer_Name" placeholder="সম্পূর্ণ নাম লিখুন" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-top: 5px;">
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <label style="font-size: 13px; font-weight: bold; color: #333;">মোবাইল নম্বর *</label>
+        <input type="tel" name="Phone_Number" placeholder="১০ ডিজিটের মোবাইল নম্বর" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-top: 5px;">
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <label style="font-size: 13px; font-weight: bold; color: #333;">প্রোডাক্টের নাম / সাইজ *</label>
+        <input type="text" id="prod_details" name="Product_Details" placeholder="যেমন: T-Shirt (Size M)" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-top: 5px;">
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <label style="font-size: 13px; font-weight: bold; color: #333;">ডেলিভারি ঠিকানা *</label>
+        <textarea name="Full_Address" rows="3" placeholder="গ্রাম/বাড়ি নম্বর, পোস্ট, জেলা, পিন কোড" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-top: 5px;"></textarea>
+      </div>
+
+      <div style="margin-bottom: 18px;">
+        <label style="font-size: 13px; font-weight: bold; color: #333;">UPI Transaction ID (UTR No) *</label>
+        <input type="text" id="utr_no" name="Transaction_ID" placeholder="পেমেন্ট করার পর ১২ সংখ্যার UTR নম্বর" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-top: 5px;">
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" style="width: 100%; background-color: #28a745; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer;">
+        অর্ডার কনফার্ম করুন 🛒
+      </button>
+    </form>
+  </div>
+
+  <!-- Digital Receipt Box (অর্ডার কনফার্ম হলে এটি ভেসে উঠবে) -->
+  <div id="receipt-box" style="display: none; border: 2px dashed #28a745; padding: 20px; border-radius: 8px; background-color: #f9fff9; text-align: center;">
+    <h2 style="color: #28a745; margin-top: 0;">✔ অর্ডার সফল হয়েছে!</h2>
+    <p style="color: #555; font-size: 14px;">আপনার রসিদটি নিচে দেওয়া হলো। এটি স্ক্রিনশট নিয়ে রাখুন:</p>
+    
+    <div style="text-align: left; background: #ffffff; padding: 15px; border-radius: 6px; border: 1px solid #eee; margin: 15px 0; font-size: 14px; line-height: 1.6;">
+      <p style="margin: 4px 0;"><strong>অর্ডার আইডি:</strong> <span id="rec_order_id" style="color: #5f259f; font-weight: bold;"></span></p>
+      <p style="margin: 4px 0;"><strong>গ্রাহকের নাম:</strong> <span id="rec_name"></span></p>
+      <p style="margin: 4px 0;"><strong>প্রোডাক্ট:</strong> <span id="rec_product"></span></p>
+      <p style="margin: 4px 0;"><strong>UTR নম্বর:</strong> <span id="rec_utr"></span></p>
+      <p style="margin: 4px 0;"><strong>পেমেন্ট স্ট্যাটাস:</strong> <span style="color: #e67e22; font-weight: bold;">ভেরিফিকেশন অপেক্ষমাণ</span></p>
+    </div>
+
+    <p style="color: #777; font-size: 12px;">পেমেন্ট ভেরিফাই করে দ্রুত আপনার পণ্য ডেলিভারি করা হবে। ধন্যবাদ!</p>
+  </div>
+
 </div>
+
+<!-- JavaScript Logic for Order ID & Receipt -->
+<script>
+  const form = document.getElementById('orderForm');
+  
+  form.addEventListener('submit', function(e) {
+    const randomID = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
+    document.getElementById('hidden_order_id').value = randomID;
+
+    document.getElementById('rec_order_id').innerText = randomID;
+    document.getElementById('rec_name').innerText = document.getElementById('cust_name').value;
+    document.getElementById('rec_product').innerText = document.getElementById('prod_details').value;
+    document.getElementById('rec_utr').innerText = document.getElementById('utr_no').value;
+
+    setTimeout(function() {
+      document.getElementById('form-container').style.display = 'none';
+      document.getElementById('receipt-box').style.display = 'block';
+    }, 1000);
+  });
+</script>
+
 
