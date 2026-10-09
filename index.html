@@ -1,3 +1,513 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SK FASHION | Premium Collection</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #f4f6f9;
+      color: #333;
+      padding-bottom: 60px;
+    }
+    header {
+      background: #111827;
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    header h1 {
+      font-size: 22px;
+      letter-spacing: 1px;
+      color: #f59e0b;
+    }
+    .cart-badge {
+      background: #ef4444;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 50%;
+      font-size: 12px;
+      margin-left: 5px;
+    }
+    .cart-btn-header {
+      background: #2563eb;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+    }
+    .hero-banner {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+      padding: 50px 20px;
+      margin-bottom: 30px;
+    }
+    .hero-banner h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 0 15px;
+    }
+    .filter-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: #fff;
+      border: 1px solid #d1d5db;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: #2563eb;
+      color: #fff;
+      border-color: #2563eb;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+    .product-img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+    .product-info {
+      padding: 15px;
+    }
+    .product-title {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: #1f2937;
+    }
+    .price-tag {
+      font-size: 18px;
+      font-weight: bold;
+      color: #059669;
+      margin-bottom: 12px;
+    }
+    .price-tag span {
+      font-size: 13px;
+      color: #9ca3af;
+      text-decoration: line-through;
+      margin-left: 5px;
+    }
+    .size-select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      margin-bottom: 12px;
+      outline: none;
+    }
+    .add-to-cart-btn {
+      width: 100%;
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .add-to-cart-btn:hover {
+      background: #059669;
+    }
+    .checkout-section {
+      background: #fff;
+      border-radius: 12px;
+      padding: 25px;
+      margin-top: 50px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .checkout-section h3 {
+      font-size: 20px;
+      color: #111827;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #2563eb;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .order-summary-box {
+      background: #f9fafb;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+      margin-bottom: 20px;
+    }
+    .payment-details-box {
+      background: #eff6ff;
+      border: 1px dashed #2563eb;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .payment-details-box h4 {
+      color: #1e40af;
+      margin-bottom: 8px;
+    }
+    .qr-img {
+      width: 180px;
+      height: 180px;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin: 10px 0;
+      background: #fff;
+    }
+    .submit-order-btn {
+      width: 100%;
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .submit-order-btn:hover {
+      background: #1d4ed8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- হেডার -->
+  <header>
+    <h1>SK FASHION</h1>
+    <a href="#checkout" class="cart-btn-header">
+      🛒 কার্ট <span class="cart-badge" id="cartCount">0</span>
+    </a>
+  </header>
+
+  <!-- ব্যানার -->
+  <div class="hero-banner">
+    <h2>নতুন স্টাইলিশ কালেকশন ২০২৬</h2>
+    <p>সেরা মানের সেরা পোশাক এখন আপনার হাতের মুঠোয়</p>
+  </div>
+
+  <div class="container">
+
+    <!-- ক্যাটাগরি ফিল্টার -->
+    <div class="filter-container">
+      <button class="filter-btn active" onclick="filterCategory('all')">সব কালেকশন</button>
+      <button class="filter-btn" onclick="filterCategory('women')">👗 মেয়েদের</button>
+      <button class="filter-btn" onclick="filterCategory('men')">👕 ছেলেদের</button>
+      <button class="filter-btn" onclick="filterCategory('kids')">👶 বাচ্চাদের</button>
+    </div>
+
+    <!-- প্রডাক্ট গ্রিড -->
+    <div class="product-grid">
+
+      <!-- প্রডাক্ট ১: মেয়েদের -->
+      <div class="product-card" data-category="women">
+        <img src="./Screenshot_20261009_090017.jpg" alt="স্কাই ব্লু স্যুট" class="product-img">
+        <div class="product-info">
+          <h3 class="product-title">স্কাই ব্লু এমব্রয়ডারি সেলোয়ার স্যুট</h3>
+          <p class="price-tag">₹ ৪৯৯ <span>₹ ৮৯৯</span></p>
+          <select class="size-select" id="size-1">
+            <option value="S">সাইজ: S</option>
+            <option value="M">সাইজ: M</option>
+            <option value="L">সাইজ: L</option>
+            <option value="XL">সাইজ: XL</option>
+            <option value="XXL">সাইজ: XXL</option>
+          </select>
+          <button class="add-to-cart-btn" onclick="addToCart('স্কাই ব্লু এমব্রয়ডারি স্যুট', 499, 'size-1')">অর্ডারে যুক্ত করুন 🛒</button>
+        </div>
+      </div>
+
+      <!-- প্রডাক্ট ২: মেয়েদের -->
+      <div class="product-card" data-category="women">
+        <img src="./Screenshot_20261009_090150.jpg" alt="পার্পল স্যুট" class="product-img">
+        <div class="product-info">
+          <h3 class="product-title">পার্পল হেভি ওয়ার্ক সেলোয়ার স্যুট</h3>
+          <p class="price-tag">₹ ৮৯৯ <span>₹ ১,২৯৯</span></p>
+          <select class="size-select" id="size-2">
+            <option value="S">সাইজ: S</option>
+            <option value="M">সাইজ: M</option>
+            <option value="L">সাইজ: L</option>
+            <option value="XL">সাইজ: XL</option>
+            <option value="XXL">সাইজ: XXL</option>
+          </select>
+          <button class="add-to-cart-btn" onclick="addToCart('পার্পল হেভি ওয়ার্ক স্যুট', 899, 'size-2')">অর্ডারে যুক্ত করুন 🛒</button>
+        </div>
+      </div>
+
+      <!-- প্রডাক্ট ৩: ছেলেদের -->
+      <div class="product-card" data-category="men">
+        <img src="./Screenshot_20261009_090432.jpg" alt="পোলো টি-শার্ট" class="product-img">
+        <div class="product-info">
+          <h3 class="product-title">মেনস কালারব্লক পোলো টি-শার্ট</h3>
+          <p class="price-tag">₹ ৪৯৯ <span>₹ ৯৯৯</span></p>
+          <select class="size-select" id="size-3">
+            <option value="S">সাইজ: S</option>
+            <option value="M">সাইজ: M</option>
+            <option value="L">সাইজ: L</option>
+            <option value="XL">সাইজ: XL</option>
+            <option value="XXL">সাইজ: XXL</option>
+          </select>
+          <button class="add-to-cart-btn" onclick="addToCart('কালারব্লক পোলো টি-শার্ট', 499, 'size-3')">অর্ডারে যুক্ত করুন 🛒</button>
+        </div>
+      </div>
+
+      <!-- প্রডাক্ট ৪: ছেলেদের -->
+      <div class="product-card" data-category="men">
+        <img src="./Screenshot_20261009_090502.jpg" alt="অলিভ গ্রিন টি-শার্ট" class="product-img">
+        <div class="product-info">
+          <h3 class="product-title">মেনস অলিভ গ্রিন পোলো টি-শার্ট</h3>
+          <p class="price-tag">₹ ৩৯৯ <span>₹ ৮৯৯</span></p>
+          <select class="size-select" id="size-4">
+            <option value="S">সাইজ: S</option>
+            <option value="M">সাইজ: M</option>
+            <option value="L">সাইজ: L</option>
+            <option value="XL">সাইজ: XL</option>
+            <option value="XXL">সাইজ: XXL</option>
+          </select>
+          <button class="add-to-cart-btn" onclick="addToCart('অলিভ গ্রিন পোলো টি-শার্ট', 399, 'size-4')">অর্ডারে যুক্ত করুন 🛒</button>
+        </div>
+      </div>
+
+      <!-- প্রডাক্ট ৫: ছেলেদের -->
+      <div class="product-card" data-category="men">
+        <img src="./Screenshot_20261009_090605.jpg" alt="ব্ল্যাক টি-শার্ট" class="product-img">
+        <div class="product-info">
+          <h3 class="product-title">মেনস সলিড ব্ল্যাক রাউন্ড নেক টি-শার্ট</h3>
+          <p class="price-tag">₹ ২৯৯ <span>₹ ৫৯৯</span></p>
+          <select class="size-select" id="size-5">
+            <option value="S">সাইজ: S</option>
+            <option value="M">সাইজ: M</option>
+            <option value="L">সাইজ: L</option>
+            <option value="XL">সাইজ: XL</option>
+            <option value="XXL">সাইজ: XXL</option>
+          </select>
+          <button class="add-to-cart-btn" onclick="addToCart('সলিড ব্ল্যাক টি-শার্ট', 299, 'size-5')">অর্ডারে যুক্ত করুন 🛒</button>
+        </div>
+      </div>
+
+      <!-- প্রডাক্ট ৬: বাচ্চাদের -->
+      <div class="product-card" data-category="kids">
+        <img src="./Screenshot_20261009_090052.jpg" alt="হলুদ কটন ফ্রক" class="product-img">
+        <div class="product-info">
+          <h3 class="product-title">হলুদ কটন ফ্লোরাল কাটওয়ার্ক ফ্রক</h3>
+          <p class="price-tag">₹ ৪৪৯ <span>₹ ৭৯৯</span></p>
+          <select class="size-select" id="size-6">
+            <option value="1-2 Y">বয়স: ১-২ বছর</option>
+            <option value="2-3 Y">বয়স: ২-৩ বছর</option>
+            <option value="3-4 Y">বয়স: ৩-৪ বছর</option>
+            <option value="4-5 Y">বয়স: ৪-৫ বছর</option>
+          </select>
+          <button class="add-to-cart-btn" onclick="addToCart('হলুদ কটন ফ্রক', 449, 'size-6')">অর্ডারে যুক্ত করুন 🛒</button>
+        </div>
+      </div>
+
+      <!-- প্রডাক্ট ৭: বাচ্চাদের -->
+      <div class="product-card" data-category="kids">
+        <img src="./Screenshot_20261009_090346.jpg" alt="পার্পল বেবি ফ্রক" class="product-img">
+        <div class="product-info">
+          <h3 class="product-title">পার্পল নেট ফ্লোরাল বেবি ফ্রক</h3>
+          <p class="price-tag">₹ ৩৪৯ <span>₹ ৬৯৯</span></p>
+          <select class="size-select" id="size-7">
+            <option value="1-2 Y">বয়স: ১-২ বছর</option>
+            <option value="2-3 Y">বয়স: ২-৩ বছর</option>
+            <option value="3-4 Y">বয়স: ৩-৪ বছর</option>
+            <option value="4-5 Y">বয়স: ৪-৫ বছর</option>
+          </select>
+          <button class="add-to-cart-btn" onclick="addToCart('পার্পল বেবি ফ্রক', 349, 'size-7')">অর্ডারে যুক্ত করুন 🛒</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- অর্ডার ও পেমেন্ট ফর্ম -->
+    <div class="checkout-section" id="checkout">
+      <h3>🛍️ আপনার কার্ট ও পেমেন্ট ফর্ম</h3>
+      
+      <!-- ⚠️ আপনার জিমেইল আইডি নিচের ইমেইলের জায়গায় বদলে দিন -->
+      <form action="https://formsubmit.co/your-email@gmail.com" method="POST">
+        
+        <div class="order-summary-box">
+          <p><strong>বাছাইকৃত পণ্য:</strong> <span id="cartDetails">কোনো প্রডাক্ট যুক্ত করা হয়নি</span></p>
+          <p style="margin-top: 8px;"><strong>মোট মূল্য:</strong> ₹<span id="cartTotal">0</span></p>
+          
+          <input type="hidden" name="Selected_Products" id="hiddenCartDetails">
+          <input type="hidden" name="Total_Amount" id="hiddenCartTotal">
+        </div>
+
+        <!-- পেমেন্ট পদ্ধতি সিলেকশন -->
+        <div class="form-group">
+          <label>পেমেন্ট পদ্ধতি বেছে নিন:</label>
+          <select name="Payment_Method" id="paymentMethod" onchange="togglePaymentBox()">
+            <option value="UPI Advance Payment">PhonePe QR কোড (অগ্রিম পেমেন্ট)</option>
+            <option value="Cash on Delivery">Cash on Delivery (ক্যাশ অন ডেলিভারি)</option>
+          </select>
+        </div>
+
+        <!-- QR কোড পেমেন্ট ডিটেইলস বক্স -->
+        <div class="payment-details-box" id="upiPaymentBox">
+          <h4>📲 PhonePe QR কোড স্ক্যান করে পেমেন্ট করুন</h4>
+          <p style="font-size: 13px; color: #4b5563; margin-bottom: 5px;">নিচের কিউআর কোডটি স্ক্যান করে পেমেন্ট সম্পন্ন করুন:</p>
+          
+          <!-- কিউআর কোডের ছবি -->
+          <img src="./qr-code.jpg" alt="PhonePe QR Code" class="qr-img">
+          
+          <p style="margin-top: 5px; font-size: 13px; color: #4b5563;">পেমেন্ট করার পর নিচের বক্সে ১২ সংখ্যার UTR / Transaction No লিখুন:</p>
+          
+          <div class="form-group" style="margin-top: 10px; text-align: left;">
+            <label>12-Digit UTR / Transaction No:</label>
+            <input type="text" name="UTR_Transaction_ID" id="utrInput" placeholder="যেমন: 428901234567">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>আপনার নাম (Customer Name):</label>
+          <input type="text" name="Customer_Name" placeholder="পুরো নাম লিখুন" required>
+        </div>
+
+        <div class="form-group">
+          <label>মোবাইল নম্বর (WhatsApp/Phone):</label>
+          <input type="tel" name="Mobile_Number" placeholder="১০ ডিজিটের মোবাইল নম্বর" required>
+        </div>
+
+        <div class="form-group">
+          <label>ডেলিভারি ঠিকানা (Full Address):</label>
+          <textarea name="Delivery_Address" rows="3" placeholder="গ্রাম/রাস্তা, পোস্ট অফিস, পিন কোড, জেলা" required></textarea>
+        </div>
+
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+
+        <button type="submit" class="submit-order-btn">অর্ডার সাবমিট করুন ✉️</button>
+      </form>
+    </div>
+
+  </div>
+
+  <script>
+    let cart = [];
+
+    function addToCart(title, price, sizeSelectId) {
+      const size = document.getElementById(sizeSelectId).value;
+      const item = { title, price, size };
+      cart.push(item);
+      updateCartUI();
+      alert(title + ' (সাইজ: ' + size + ') কার্টে যুক্ত হয়েছে!');
+    }
+
+    function updateCartUI() {
+      document.getElementById('cartCount').innerText = cart.length;
+      
+      if(cart.length === 0) {
+        document.getElementById('cartDetails').innerText = 'কোনো প্রডাক্ট যুক্ত করা হয়নি';
+        document.getElementById('cartTotal').innerText = '0';
+        return;
+      }
+
+      let detailsText = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        detailsText += `(${index + 1}) ${item.title} [সাইজ: ${item.size}] - ₹${item.price} | `;
+        total += item.price;
+      });
+
+      document.getElementById('cartDetails').innerText = detailsText;
+      document.getElementById('cartTotal').innerText = total;
+
+      document.getElementById('hiddenCartDetails').value = detailsText;
+      document.getElementById('hiddenCartTotal').value = '₹' + total;
+    }
+
+    function filterCategory(category) {
+      const cards = document.querySelectorAll('.product-card');
+      const buttons = document.querySelectorAll('.filter-btn');
+
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      cards.forEach(card => {
+        if(category === 'all' || card.getAttribute('data-category') === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function togglePaymentBox() {
+      const method = document.getElementById('paymentMethod').value;
+      const upiBox = document.getElementById('upiPaymentBox');
+      if(method === 'Cash on Delivery') {
+        upiBox.style.display = 'none';
+      } else {
+        upiBox.style.display = 'block';
+      }
+    }
+  </script>
+
+</body>
+  </html>
 
 
 
