@@ -80,4 +80,98 @@ function copyOrder(){const t=document.getElementById("orderText");t.select();if(
 function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2300)}
 renderProducts();renderCart();
 </script>
-</body></html>
+</body></html><!-- UPI Direct Payment Box -->
+<div style="text-align: center; border: 2px solid #5f259f; padding: 20px; border-radius: 12px; max-width: 350px; margin: 20px auto; font-family: Arial, sans-serif; box-shadow: 0 4px 8px rgba(0,0,0,0.1); background-color: #ffffff;">
+  
+  <h3 style="color: #5f259f; margin-top: 0; margin-bottom: 10px;">UPI দিয়ে পেমেন্ট করুন</h3>
+  <p style="color: #555; font-size: 14px; margin-bottom: 15px;">PhonePe / Google Pay / Paytm দিয়ে পেমেন্ট করতে নিচের UPI ID টি ব্যবহার করুন:</p>
+  
+  <!-- UPI ID Box -->
+  <div style="background-color: #f3e8ff; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 18px; color: #5f259f; margin-bottom: 12px; border: 1px dashed #5f259f; word-break: break-all;">
+    <span id="upi-id">8327240552@ibl</span>
+  </div>
+
+  <!-- Copy Button -->
+  <button onclick="copyUpi()" style="background-color: #5f259f; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold;">
+    UPI ID কপি করুন 📋
+  </button>
+
+  <p id="copy-msg" style="color: #28a745; font-size: 12px; margin-top: 10px; display: none; font-weight: bold;">কপি করা হয়েছে!</p>
+
+  <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+  <p style="color: #777; font-size: 12px; margin: 0;">পেমেন্ট করার পর ট্রানজেকশন স্ক্রিনশট বা UTR নম্বর আমাদের সাথে শেয়ার করুন।</p>
+
+</div>
+
+<script>
+  function copyUpi() {
+    var upiText = document.getElementById("upi-id").innerText;
+    navigator.clipboard.writeText(upiText);
+    var msg = document.getElementById("copy-msg");
+    msg.style.display = "block";
+    setTimeout(function() {
+      msg.style.display = "none";
+    }, 2000);
+  }
+</script>
+<!-- Order & Payment Section -->
+<div style="max-width: 450px; margin: 30px auto; padding: 25px; border: 2px solid #5f259f; border-radius: 12px; background-color: #ffffff; font-family: Arial, sans-serif; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+
+  <!-- Step 1: UPI Payment Info -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <h3 style="color: #5f259f; margin-top: 0;">১. পেমেন্ট করুন (UPI)</h3>
+    <p style="color: #555; font-size: 13px;">PhonePe / Google Pay / Paytm অ্যাপ দিয়ে নিচের UPI ID-তে টাকা পাঠান:</p>
+    
+    <div style="background-color: #f3e8ff; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 16px; color: #5f259f; border: 1px dashed #5f259f; display: inline-block;">
+      8327240552@ibl
+    </div>
+  </div>
+
+  <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+  <!-- Step 2: Customer Address & Order Form -->
+  <h3 style="color: #333; text-align: center; margin-top: 0;">২. আপনার অর্ডার ও ঠিকানা দিন</h3>
+  
+  <form action="https://api.web3forms.com/submit" method="POST">
+    
+    <!-- Access Key (Web3Forms থেকে ইমেইলে পাওয়া Key টি এখানে বসাবেন) -->
+    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+
+    <!-- Notification Email Reference -->
+    <input type="hidden" name="from_name" value="SK Fashion Orders">
+    <input type="hidden" name="subject" value="নতুন অর্ডার এসেছে!">
+
+    <!-- Customer Details -->
+    <div style="margin-bottom: 12px;">
+      <label style="font-size: 13px; font-weight: bold; color: #333;">আপনার নাম *</label>
+      <input type="text" name="Customer_Name" placeholder="সম্পূর্ণ নাম লিখুন" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-top: 5px;">
+    </div>
+
+    <div style="margin-bottom: 12px;">
+      <label style="font-size: 13px; font-weight: bold; color: #333;">মোবাইল নম্বর *</label>
+      <input type="tel" name="Phone_Number" placeholder="১০ ডিজিটের মোবাইল নম্বর" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-top: 5px;">
+    </div>
+
+    <div style="margin-bottom: 12px;">
+      <label style="font-size: 13px; font-weight: bold; color: #333;">প্রোডাক্টের নাম / সাইজ *</label>
+      <input type="text" name="Product_Details" placeholder="যেমন: T-Shirt (Size M)" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-top: 5px;">
+    </div>
+
+    <div style="margin-bottom: 12px;">
+      <label style="font-size: 13px; font-weight: bold; color: #333;">ডেলিভারি ঠিকানা *</label>
+      <textarea name="Full_Address" rows="3" placeholder="গ্রাম/বাড়ি নম্বর, পোস্ট, জেলা, পিন কোড" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-top: 5px;"></textarea>
+    </div>
+
+    <div style="margin-bottom: 18px;">
+      <label style="font-size: 13px; font-weight: bold; color: #333;">UPI Transaction ID (UTR No) *</label>
+      <input type="text" name="Transaction_ID" placeholder="পেমেন্ট করার পর ১২ সংখ্যার UTR নম্বর" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-top: 5px;">
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" style="width: 100%; background-color: #28a745; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer;">
+      অর্ডার কনফার্ম করুন 🛒
+    </button>
+  </form>
+
+</div>
+
